@@ -1,0 +1,30 @@
+<div *ngIf="auth.user | async; then authenticated else guest">
+    <!-- template will replace this div -->
+
+</div>
+
+
+<!-- User not logged -->
+<ng-template #guest>
+  <h3>Howdy Guest</h3>
+  <p>Login to get started...</p>
+  <button type="button" name="button" (click)="auth.googleLogin()">
+    <i class="fa fa-google"></i> Connect Google
+  </button>
+</ng-template>
+
+
+<!-- User logged -->
+<ng-template #authenticated>
+  <div *ngIf="auth.user | async as user">
+      <h3>Howdy, {{user.displayName }}</h3>
+      <img src="user.photoURL">
+      <p>PID:{{user.uid}}</p>
+  </div>
+  <p>Login to get started...</p>
+  <button type="button" name="button" (click)="auth.googleLogin()">
+    <i class="fa fa-google"></i> Connect Google
+  </button>
+</ng-template>
+
+<ion-button (click)="doSomething()">display_console</ion-button>

@@ -1,0 +1,116 @@
+<ion-menu side="start" menuId="custom" class="my-custom-menu" content-id="content" auto-hide="false">
+    <!-- <ion-img src="/assets/space.png" style="height:50% !important"></ion-img> -->
+    <ion-header>
+        <ion-toolbar color="tertiary">
+            <!-- <ion-title>Params</ion-title> -->
+        </ion-toolbar>
+    </ion-header>
+    <ion-header>
+        <ion-toolbar color="tertiary">
+            <ion-title>Params</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-content padding>
+        <ion-list>
+            <ion-item>Profile</ion-item>
+            <ion-item>Params</ion-item>
+            <ion-item>Politique de confidentialite</ion-item>
+            <ion-item>Avis</ion-item>
+            <ion-item (click)="logout()" *ngIf="auth.isLogged">Logout</ion-item>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<ion-header>
+    <ion-toolbar>
+        <!-- <ion-buttons slot="secondary"> -->
+        <ion-buttons slot="start">
+            <ion-menu-toggle>
+                <ion-button>
+                    <ion-icon slot="icon-only" name="menu"></ion-icon>
+                </ion-button>
+            </ion-menu-toggle>
+        </ion-buttons>
+        <ion-title>Ublim</ion-title>
+        <ion-buttons slot="end">
+            <ion-button href="/login" *ngIf="!auth.isLogged">
+                Sign in
+            </ion-button>
+            <ion-button (click)="popoverProfile($event)" *ngIf="auth.isLogged">
+                <ion-icon slot="icon-only" name="person"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content id="content">
+    <ion-grid fixed>
+        <ion-row>
+            <ion-col>
+                <ion-button expand="block" type="button" name="button" (click)="demo()">
+                    <i class="fa fa-google"></i> Demo
+                </ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <!-- <ion-col size="12" size-md="11" offset-md="0.5" size-lg="10" offset-lg="1" size-xl="7" offset-xl="2.5"> -->
+            <ion-col size="12" size-sm="6" size-lg="3">
+                <ion-card class="welcome-card">
+                    <ion-img src="/assets/demo222.png"></ion-img>
+                    <ion-card-header>
+                        <ion-card-subtitle>Check the Demo</ion-card-subtitle>
+                        <ion-card-title>Ublim's demo</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p>Now that your app has been created, you'll want to start building out features and components. Check out some of the resources below for next steps.</p>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-lg="3">
+                <ion-card class="welcome-card">
+                    <ion-img src="/assets/shapes.svg"></ion-img>
+                    <ion-card-header>
+                        <ion-card-subtitle>Get Started</ion-card-subtitle>
+                        <ion-card-title>Welcome to Ionic</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p>Now that your app has been created, you'll want to start building out features and components. Check out some of the resources below for next steps.</p>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-lg="3">
+                <ion-card class="welcome-card">
+                    <ion-img src="/assets/shapes.svg"></ion-img>
+                    <ion-card-header>
+                        <ion-card-subtitle>Get Started</ion-card-subtitle>
+                        <ion-card-title>Welcome to Ionic</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p>Now that your app has been created, you'll want to start building out features and components. Check out some of the resources below for next steps.</p>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-lg="3">
+                <ion-card class="welcome-card">
+                    <ion-img src="/assets/shapes.svg"></ion-img>
+                    <ion-card-header>
+                        <ion-card-subtitle>Get Started</ion-card-subtitle>
+                        <ion-card-title>Welcome to Ionic</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p>Now that your app has been created, you'll want to start building out features and components. Check out some of the resources below for next steps.</p>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+
+        </ion-row>
+    </ion-grid>
+</ion-content>
+
+
+<!-- <ion-footer>
+<ion-toolbar>
+<ion-title>Footer</ion-title>
+</ion-toolbar>
+</ion-footer> -->
