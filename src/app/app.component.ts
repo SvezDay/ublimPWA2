@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Platform } from '@ionic/angular';
+import { Platform, MenuController, PopoverController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+
 
 import * as firebase from 'firebase/app';
 import {firebaseConfig} from './firebase-config';
@@ -11,16 +13,33 @@ import {AuthService} from './_core/auth.service';
 
 @Component({
     selector: 'app-root',
-    templateUrl: 'app.component.html'
+    templateUrl: 'app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+    moduleItems: Array<{title:string, url:string, direct:string, icon:string, openTabs?:any}>;
+    standardItems: Array<{title:string, url:string, direct:string, icon:string, openTabs?:any}>;
+    isExpanded = false;
+
     constructor(
         private platform: Platform,
+        private menu: MenuController,
         private splashScreen: SplashScreen,
         private statusBar: StatusBar,
-        private auth: AuthService
+        private auth: AuthService,
+        private router: Router
     ) {
         this.initializeApp();
+        this.moduleItems = [];
+        this.standardItems = [{title:'Profile', url:'user-profile', direct:'forward', icon:'profile'}
+            // ,{title:'Settings', component:'SettingsPage'}
+            // ,{title:'Help', component:'HelpPage'}
+            // ,{title:'Demos', component:'DemosPage'}
+            // ,{title:'Policies', component:'PoliciesPage'}
+        ];
+    }
+    ngOnInit(){
+        this.auth.isLoggedIn();
     }
 
     initializeApp() {
@@ -28,9 +47,41 @@ export class AppComponent {
         this.platform.ready().then(() => {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
+            this.auth.authState.subscribe(state=>{
+                console.log("app.component init state: ", state);
+                if(state){
+                    this.router.navigate(['members', 'board']);
+                }else{
+                    // this.router.navigate(['public', 'home']);
+                    this.router.navigate(['members', 'board']);
+                }
+            })
         });
-        if(this.auth.isLogged){
-            this.auth.getProfile();
-        }
+    }
+    logout(){
+
+    }
+    openItem(i){}
+
+    // openCustom() {
+    //     this.menu.enable(true, 'custom');
+    //     this.menu.open('custom');
+    // }
+    // closeCustom(){
+    //     this.menu.close('custom');
+    // }
+    //
+    openFirst() :void {
+        this.menu.enable(true, 'first');
+        this.menu.open('first');
+    }
+
+    openEnd() : void {
+        this.menu.open('end');
+    }
+
+    openCustom() : void{
+        this.menu.enable(true, 'custom');
+        this.menu.open('custom');
     }
 }

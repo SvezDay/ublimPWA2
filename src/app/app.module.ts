@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -18,15 +18,17 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 // import { UserProfileComponent } from './user-profile/user-profile.component';
 
+// import { HomePageModule } from './home/home.module';
+// import { HomePage } from './home/home.page';
 
+// import { PopoverProfilePageModule } from './popover-profile/popover-profile.module';
 
-// import { HomeModule } from './home/home.module';
-import { PopoverProfilePageModule } from './popover-profile/popover-profile.module';
-
+// import { ToolbarPageModule } from './members/toolbar/toolbar.module';
 @NgModule({
   declarations: [
     AppComponent
     // , UserProfileComponent
+    // ,HomePage
   ],
   entryComponents: [],
   imports: [
@@ -42,8 +44,9 @@ import { PopoverProfilePageModule } from './popover-profile/popover-profile.modu
     , AppRoutingModule
     , BrowserAnimationsModule
     , CoreModule
-    // , HomeModule
-    , PopoverProfilePageModule
+    // , PopoverProfilePageModule
+    // , HomePageModule
+    // , ToolbarPageModule
   ],
   providers: [
     StatusBar,
@@ -51,5 +54,7 @@ import { PopoverProfilePageModule } from './popover-profile/popover-profile.modu
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
+  // ,schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class AppModule {}

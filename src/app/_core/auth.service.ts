@@ -8,7 +8,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth';
 import 'firebase/firestore';
 
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of, throwError, BehaviorSubject } from 'rxjs';
 import { switchMap, catchError, retry } from 'rxjs/operators';
 
 import { User } from '../_interfaces/user';
@@ -26,7 +26,8 @@ export class AuthService {
     // apiUrl: string = `https://${environment.firebase.authDomain}`;
     user: Observable<User>;
     firestore;
-    isLogged:boolean = false;
+    // isLogged:boolean = false; // Problème, il semble que l'appel d'un variable d'un service retourne une boocle infinie.
+    authState = new BehaviorSubject(false);
 
     constructor(
         private router: Router
@@ -56,7 +57,9 @@ export class AuthService {
         return firebase.auth().sendPasswordResetEmail(email);
     }
     logout(): Promise<void>{
+        // this.isLogged = false;
         return firebase.auth().signOut();
+        this.authState.next(false);
     }
     getProfile(): Promise<void>{
         return this.rest.query('get', '/rest/getProfile').then(restProfile=>{
@@ -64,16 +67,16 @@ export class AuthService {
             console.log("restProfile", restProfile)
         });
     }
-    isLoggedin(): Observable<boolean> | Promise<boolean> | boolean{
+    // isLoggedin(): Observable<boolean> | Promise<boolean> | boolean{
+    isLoggedIn(): Promise<boolean>{
         console.log("check isLoggedin()")
         return new Promise((resolve, reject)=>{
             firebase.auth().onAuthStateChanged((user: firebase.User)=>{
                 if(user) {
+                    console.log("user isLoggedin: ", user)
                     resolve(true);
-                    this.isLogged=true;
                 }else{
                     resolve(false);
-                    this.isLogged=false;
                 }
             })
         })
@@ -81,8 +84,10 @@ export class AuthService {
     private authLogin(provider): Promise<void>{
         return firebase.auth().signInWithPopup(provider)
         .then((result) => {
+            this.authState.next(true);
             console.log("result ========================================== result");
             this.getProfile();
+            // this.isLogged = true;
             // this.ngZone.run(() => {
             //     this.router.navigate(['dashboard']);
             // })
@@ -91,6 +96,9 @@ export class AuthService {
         }).catch((error) => {
             window.alert(error)
         })
+    }
+    isAuthenticated(){
+        return this.authState.value;
     }
 
     // ngInit(){
