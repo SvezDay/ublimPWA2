@@ -22,8 +22,8 @@ const routes: Routes = [
         ,{ path: 'user-profile', loadChildren: './user-profile/user-profile.module#UserProfilePageModule'}
 
 
-        ,{ path: '', redirectTo: '/board', pathMatch: 'full'}
-        ,{ path: '**', loadChildren: './board/board.module#BoardPageModule'}
+        // ,{ path: '', redirectTo: '/board', pathMatch: 'full'}
+        // ,{ path: '**', loadChildren: './board/board.module#BoardPageModule'}
     ]}
     // ,{ path:'', component: ToolbarPage, outlet:'auxToolbar'}
 ];

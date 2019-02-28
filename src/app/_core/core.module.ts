@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AuthService } from './auth.service';
-import { AuthGuard } from './auth.guard';
+// import { AuthGuard } from './auth.guard';
 import { UserService } from './user.service';
 import { RestService } from './rest.service';
 

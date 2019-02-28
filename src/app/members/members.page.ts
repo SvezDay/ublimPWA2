@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../_core/auth.service';
 
 @Component({
   selector: 'app-members',
@@ -7,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MembersPage implements OnInit {
 
-  constructor() { }
+  constructor(private auth: AuthService) { }
 
   ngOnInit() {
       console.log("check members page")
+  }
+  logout(){
+      this.auth.logout();
   }
 
 }

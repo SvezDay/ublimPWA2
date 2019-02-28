@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MenuController } from '@ionic/angular';
 import { MenuController, PopoverController } from '@ionic/angular';
 import { PopoverProfilePage } from '../popover-profile/popover-profile.page';
 import { AuthService } from '../../_core/auth.service';

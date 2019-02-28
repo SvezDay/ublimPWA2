@@ -1,34 +1,37 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
+import { RouteReuseStrategy, Routes, RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 
-import { AppRoutingModule } from './app-routing.module';
+// import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material.module';
 import { CoreModule } from './_core/core.module';
 
 import { AppComponent } from './app.component';
+import { AuthGuard } from './_core/auth.guard';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-// import { UserProfileComponent } from './user-profile/user-profile.component';
 
-// import { HomePageModule } from './home/home.module';
-// import { HomePage } from './home/home.page';
 
-// import { PopoverProfilePageModule } from './popover-profile/popover-profile.module';
+const routes: Routes = [
+    { path: 'public', loadChildren: './public/public.module#PublicPageModule'},
+    { path: 'members', loadChildren: './members/members.module#MembersPageModule', canActivate:[AuthGuard]},
 
-// import { ToolbarPageModule } from './members/toolbar/toolbar.module';
+    // in the home constructor, if logged redirect to board
+    { path: '', loadChildren: './public/public.module#PublicPageModule'},
+    { path: '**', loadChildren: './public/public.module#PublicPageModule' },
+];
+
 @NgModule({
   declarations: [
     AppComponent
-    // , UserProfileComponent
-    // ,HomePage
   ],
   entryComponents: [],
   imports: [
@@ -41,12 +44,10 @@ import { HttpClientModule } from '@angular/common/http';
         name: 'umpwa_clt',
         driverOrder: ['indexeddb', 'sqlite', 'websql']
     })
-    , AppRoutingModule
+    // , AppRoutingModule
+    , RouterModule.forRoot(routes)
     , BrowserAnimationsModule
     , CoreModule
-    // , PopoverProfilePageModule
-    // , HomePageModule
-    // , ToolbarPageModule
   ],
   providers: [
     StatusBar,

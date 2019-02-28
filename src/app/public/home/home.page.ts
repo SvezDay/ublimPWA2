@@ -23,7 +23,7 @@ export class HomePage implements OnInit {
     ngOnInit() {
         // Comme indiqué dans app routing, redirect vers board si logged
         this.auth.isLoggedIn().then(res=>{
-            console.log("isLoggedin(): ", res)
+            console.log("home page isLoggedin(): ", res)
             if(res){
                 this.router.navigateByUrl('/members/board');
             }

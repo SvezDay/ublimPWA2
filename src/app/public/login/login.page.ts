@@ -33,7 +33,7 @@ export class LoginPage implements OnInit {
 
     signup(){
         console.log("check")
-        this.router.navigateByUrl('sign-up');
+        this.router.navigate(['/public/sign-up']);
     }
 
     async loginUser(loginForm: FormGroup): Promise<void> {
@@ -49,7 +49,7 @@ export class LoginPage implements OnInit {
         this.auth.signin(email, password)
           .then(() => {
             this.loading.dismiss().then(() => {
-              this.router.navigateByUrl('home');
+              this.router.navigate(['/members/board']);
             });
           },
           error => {

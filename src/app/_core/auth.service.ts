@@ -58,8 +58,8 @@ export class AuthService {
     }
     logout(): Promise<void>{
         // this.isLogged = false;
-        return firebase.auth().signOut();
         this.authState.next(false);
+        return firebase.auth().signOut();
     }
     getProfile(): Promise<void>{
         return this.rest.query('get', '/rest/getProfile').then(restProfile=>{
@@ -69,16 +69,21 @@ export class AuthService {
     }
     // isLoggedin(): Observable<boolean> | Promise<boolean> | boolean{
     isLoggedIn(): Promise<boolean>{
-        console.log("check isLoggedin()")
         return new Promise((resolve, reject)=>{
             firebase.auth().onAuthStateChanged((user: firebase.User)=>{
                 if(user) {
-                    console.log("user isLoggedin: ", user)
                     resolve(true);
                 }else{
                     resolve(false);
                 }
             })
+        })
+    }
+    isLoggedInOrRedirectHome(){
+        this.isLoggedIn().then(res=>{
+            if(!res){
+                this.router.navigate(['/public/login']);
+            }
         })
     }
     private authLogin(provider): Promise<void>{

@@ -46,7 +46,7 @@ export class SignUpPage implements OnInit {
             this.auth.signup(email, password)
             .then(() => {
                     this.loading.dismiss().then(() => {
-                        this.router.navigateByUrl('home');
+                        this.router.navigate(['/public/home']);
                     });
                 },
                 error => {

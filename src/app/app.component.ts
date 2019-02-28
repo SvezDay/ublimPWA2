@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Platform, MenuController, PopoverController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -23,7 +23,6 @@ export class AppComponent {
 
     constructor(
         private platform: Platform,
-        private menu: MenuController,
         private splashScreen: SplashScreen,
         private statusBar: StatusBar,
         private auth: AuthService,
@@ -47,41 +46,16 @@ export class AppComponent {
         this.platform.ready().then(() => {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
-            this.auth.authState.subscribe(state=>{
-                console.log("app.component init state: ", state);
-                if(state){
-                    this.router.navigate(['members', 'board']);
-                }else{
-                    // this.router.navigate(['public', 'home']);
-                    this.router.navigate(['members', 'board']);
-                }
-            })
+            // this.auth.authState.subscribe(state=>{
+            //     console.log("app.component init state: ", state);
+            //     if(state){
+            //         this.router.navigate(['members', 'board']);
+            //     }else{
+            //         this.router.navigate(['public', 'home']);
+            //     }
+            // })
+            this.router.navigate(['public', 'home']);
         });
     }
-    logout(){
 
-    }
-    openItem(i){}
-
-    // openCustom() {
-    //     this.menu.enable(true, 'custom');
-    //     this.menu.open('custom');
-    // }
-    // closeCustom(){
-    //     this.menu.close('custom');
-    // }
-    //
-    openFirst() :void {
-        this.menu.enable(true, 'first');
-        this.menu.open('first');
-    }
-
-    openEnd() : void {
-        this.menu.open('end');
-    }
-
-    openCustom() : void{
-        this.menu.enable(true, 'custom');
-        this.menu.open('custom');
-    }
 }
