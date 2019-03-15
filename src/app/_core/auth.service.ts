@@ -8,7 +8,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth';
 import 'firebase/firestore';
 
-import { Observable, of, throwError, BehaviorSubject } from 'rxjs';
+import { Observable, of, throwError, BehaviorSubject ,from } from 'rxjs';
 import { switchMap, catchError, retry } from 'rxjs/operators';
 
 import { User } from '../_interfaces/user';
@@ -36,16 +36,30 @@ export class AuthService {
     ) {
 
     }
-
-    // signin(email: string, password:string) : Promise<firebase.auth.UserCredential>{
-    signin(email: string, password:string) : Promise<void>{
-        return firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(UserCredential=>{
-            return this.getProfile();
-        })
+    signin(email: string, password:string) : Observable<any>{
+        return from(firebase.auth().signInWithEmailAndPassword(email, password)).pipe(
+            switchMap(UserCredential=>{
+                return this.getProfile();
+            })
+        )
     }
+    // signin(email: string, password:string) : Promise<firebase.auth.UserCredential>{
+    //     return firebase.auth().signInWithEmailAndPassword(email, password)
+    //     .then(UserCredential=>{
+    //         return this.getProfile();
+    //     })
+    // }
+    // signin(email: string, password:string) : Promise<firebase.auth.UserCredential>{
+    //     return this.authLogin(new firebase.auth.EmailAuthProvider.credential(email, password));
+    // }
     signinWithGoogle(): Promise<void>{
         return this.authLogin(new firebase.auth.GoogleAuthProvider());
+    }
+    signinWithFacebook(): Promise<void>{
+        return this.authLogin(new firebase.auth.FacebookAuthProvider());
+    }
+    signinWithTwitter(): Promise<void>{
+        return this.authLogin(new firebase.auth.TwitterAuthProvider());
     }
     signup(email:string, password:string):Promise<any>{
         return firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -61,11 +75,17 @@ export class AuthService {
         this.authState.next(false);
         return firebase.auth().signOut();
     }
-    getProfile(): Promise<void>{
-        return this.rest.query('get', '/rest/getProfile').then(restProfile=>{
-            console.log("=================== getProfile ======================")
-            console.log("restProfile", restProfile)
-        });
+    getProfile(): Observable<any>{
+        // return this.rest.query('get', '/rest/getProfile').then(restProfile=>{
+        //     console.log("=================== getProfile ======================")
+        //     console.log("restProfile", restProfile)
+        // });
+        return from(this.rest.get('/rest/getProfile', {}, false));
+        // .then(restProfile=>{
+        //     console.log("=================== getProfile ======================")
+        //     console.log("restProfile", restProfile)
+        //     return;
+        // });
     }
     // isLoggedin(): Observable<boolean> | Promise<boolean> | boolean{
     isLoggedIn(): Promise<boolean>{
@@ -86,7 +106,7 @@ export class AuthService {
             }
         })
     }
-    private authLogin(provider): Promise<void>{
+    private authLogin(provider): Promise<any>{
         return firebase.auth().signInWithPopup(provider)
         .then((result) => {
             this.authState.next(true);

@@ -6,6 +6,9 @@ import { LoadingController, AlertController } from '@ionic/angular';
 import { AuthService } from '../../_core/auth.service';
 import { RestService } from "../../_core/rest.service";
 
+import { from } from 'rxjs';
+import { switchMap, catchError, map } from 'rxjs/operators'
+
 @Component({
     selector: 'app-login',
     templateUrl: './login.page.html',
@@ -47,21 +50,37 @@ export class LoginPage implements OnInit {
         const password = loginForm.value.password;
 
         this.auth.signin(email, password)
-          .then(() => {
-            this.loading.dismiss().then(() => {
-              this.router.navigate(['/members/board']);
-            });
-          },
-          error => {
-            this.loading.dismiss().then(async () => {
-              const alert = await this.alertCtrl.create({
-                message: error.message,
-                buttons: [{ text: 'Ok', role: 'cancel' }],
-              });
-              await alert.present();
-            });
-          }
-        );
+        .subscribe(
+            ()=>{
+                this.loading.dismiss().then(() => {
+                    this.router.navigate(['/members/board']);
+                });
+            },
+            err => {
+                this.loading.dismiss().then(async () => {
+                    const alert = await this.alertCtrl.create({
+                        message: err.message,
+                        buttons: [{ text: 'Ok', role: 'cancel' }],
+                    });
+                    await alert.present();
+                })
+            })
+        // this.auth.signin(email, password).pipe(
+        //     switchMap(() => {
+        //         this.loading.dismiss().then(() => {
+        //             this.router.navigate(['/members/board']);
+        //         });
+        //     }),
+        //     catchError(error => {
+        //         this.loading.dismiss().then(async () => {
+        //             const alert = await this.alertCtrl.create({
+        //                 message: error.message,
+        //                 buttons: [{ text: 'Ok', role: 'cancel' }],
+        //               });
+        //           await alert.present();
+        //         })
+        //     })
+        // );
       }
     }
 

@@ -30,11 +30,7 @@ export class BoxPage implements OnInit {
     private getPage(){
         console.log('check in getPage')
         let params = {};
-        this.rest.query("get", "/rest/box/getPage")
-        // .subscribe(data=>{
-        //     // this.page = data;
-        //     console.log("page", this.page)
-        // })
+        this.rest.get("/rest/box/getPage",{}, false)
         .then(data=>{
             console.log("data from boxpage: ", data);
         })
